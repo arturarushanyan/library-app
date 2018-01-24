@@ -43,16 +43,23 @@ const bookController = (bookService, nav) => {
                 if (err) {
                     throw err;
                 }
-                bookService.getBookById(result.bookId, (err, book) => {
-                    result.book = book;
-                    console.log('booooooook is', result);
-                    res.render('bookView',
-                        {
+                if (result.bookId) {
+                    bookService.getBookById(result.bookId, (err, book) => {
+                        result.book = book;
+                        console.log('booooooook is', result);
+                        res.render('bookView', {
                             title: 'myapp',
                             nav: nav,
                             books: result
                         });
-                });
+                    });
+                } else {
+                    res.render('bookView', {
+                        title: 'myapp',
+                        nav: nav,
+                        books: result
+                    });
+                }
             });
         });
     };
